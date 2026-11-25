@@ -1,0 +1,65 @@
+---
+import { Menu, X, Sun, Moon } from '@lucide/astro';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="/" aria-label="Galang Rakha Ahnanta — home">GRA<span>.</span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/#about">About</a>
+      <a href="/certifications">Certifications</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button theme-toggle" type="button" aria-label="Switch to dark theme">
+        <Sun class="sun-icon" size={18} />
+        <Moon class="moon-icon" size={18} />
+      </button>
+      <button class="icon-button menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+        <Menu class="menu-icon" size={20} />
+        <X class="close-icon" size={20} />
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/">Home</a>
+    <a href="/projects">Projects</a>
+    <a href="/#about">About</a>
+    <a href="/certifications">Certifications</a>
+    <a href="/#contact">Contact</a>
+  </nav>
+</header>
+
+<script>
+  const root = document.documentElement;
+  const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
+
+  const syncThemeLabel = () => {
+    themeToggle?.setAttribute(
+      'aria-label',
+      root.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
+    );
+  };
+
+  themeToggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('theme', next);
+    syncThemeLabel();
+  });
+  syncThemeLabel();
+
+  menuToggle?.addEventListener('click', () => {
+    const open = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!open));
+    menuToggle.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
+    mobileNav?.classList.toggle('is-open', !open);
+  });
+  mobileNav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    mobileNav.classList.remove('is-open');
+  }));
+</script>

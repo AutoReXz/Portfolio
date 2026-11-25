@@ -1,0 +1,43 @@
+Licenses & certifications
+
+* Natural Language Processing with Classification and Vector Spaces - DeepLearning.AI
+* Dev Certification for Machine Learning with TensorFlow (DCML) - dev.cert by dev.id
+* Associate Data Scientist (Vocational School Graduate Academy) - Digital Talent Scholarship (komdigi)
+* AI Advanced: AI Track elevAIte (Fresh Graduate Academy) - Digital Talent Scholarship
+* AI Intermediate: AI Track elevAIte (Fresh Graduate Academy) - Digital Talent Scholarship
+* Belajar Membuat Aplikasi Back-End untuk Pemula dengan Google Cloud - Dicoding Indonesia
+* AI Beginner elevAIte (Fresh Graduate Academy) - Digital Talent Scholarship
+* Menerapkan rekayasa prompt dengan Azure OpenAI Service - Digital Talent Scholarship
+* Dasar-dasar Keamanan AI From ElevAIte (Micro Skill) - Digital Talent Scholarship
+* Generative AI for Everyone - DeepLearning.AI
+* Data Pipelines with TensorFlow Data Services - DeepLearning.AI
+* Device-based Models with TensorFlow Lite - DeepLearning.AI
+* DeepLearning.AI TensorFlow Developer Specialization - DeepLearning.AI
+* Sequences, Time Series and Prediction - DeepLearning.AI
+* Natural Language Processing in TensorFlow - DeepLearning.AI
+* Convolutional Neural Networks in TensorFlow - DeepLearning.AI
+* Introduction to TensorFlow for Artificial Intelligence, Machine Learning, and Deep Learning - DeepLearning.AI
+* Unsupervised Learning, Recommenders, Reinforcement Learning - DeepLearning.AI
+* Machine Learning Specialization - DeepLearning.AI
+* Belajar Analisis Data dengan Python - Dicoding Indonesia
+* Advanced Learning Algorithms - DeepLearning.AI
+* Supervised Machine Learning: Regression and Classification - DeepLearning.AI
+* Linear Algebra for Machine Learning and Data Science - DeepLearning.AI
+* Using Python to Interact with the Operating System - Google
+* Crash Course on Python - Google
+* Belajar Dasar Git dengan GitHub - Dicoding Indonesia
+* Pengenalan ke Logika Pemrograman (Programming Logic 101) - Dicoding Indonesia
+* Memulai Dasar Pemrograman untuk Menjadi Pengembang Software - Dicoding Indonesia
+* Memulai Pemrograman dengan Python - Dicoding Indonesia
+* Belajar Dasar Structured Query Language (SQL) - Dicoding Indonesia
+* Belajar Dasar Visualisasi Data - Dicoding Indonesia
+* Belajar Dasar AI - Dicoding Indonesia
+
+Projects
+
+HOPTIMA — Property Recommendation System
+
+Developed HOPTIMA, a property recommendation application for the Yogyakarta area, as part of a 7-member cross-functional team across Machine Learning, Cloud Computing, and Mobile Development.
+Contributed to property data cleaning, feature preparation, exploratory analysis, recommendation-model development and evaluation, and coordination with other technical teams for application integration. The system used user preferences and property attributes to generate relevant recommendations.
+Technologies: Python, TensorFlow, data preprocessing, recommendation systems.
+Demo: https://youtu.be/ZExdRTqDkRc

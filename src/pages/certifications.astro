@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPortfolioContent } from '../data/content';
+
+const { certifications } = await getPortfolioContent();
+---
+<BaseLayout title="Certifications — Galang Rakha Ahnanta" description="AI, data, machine learning, programming, cloud, and backend training completed by Galang Rakha Ahnanta.">
+  <section class="page-hero"><div class="container"><div class="eyebrow">Credentials</div><h1>Certifications</h1><p>Selected training and professional credentials in AI, machine learning, data, programming, and software development.</p></div></section>
+  <section class="cert-archive"><div class="container">
+    {certifications.map((category) => (
+      <div class="cert-category"><h2>{category.title}</h2><div class="cert-list">
+        {category.items.map(({ title, issuer, file, url }) => (
+          <div class="cert-item"><strong>{title}</strong><span>{issuer}</span>{(url || file) && <a href={url ?? (file ? `/certifications/${encodeURI(file)}` : '')} target="_blank" rel="noopener noreferrer" aria-label={`Open ${title} certificate`}>↗</a>}</div>
+        ))}
+      </div></div>
+    ))}
+  </div></section>
+</BaseLayout>

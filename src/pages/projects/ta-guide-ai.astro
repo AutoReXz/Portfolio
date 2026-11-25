@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ExternalLink } from '@lucide/astro';
+---
+<BaseLayout title="TA-Guide AI — Case Study" description="A page-referenced RAG assistant for Indonesian university thesis guidance.">
+  <section class="case-hero">
+    <div class="container">
+      <div class="eyebrow">Independent Personal Project · Functional Prototype</div>
+      <h1>TA-Guide AI</h1>
+      <p class="case-subtitle">WhatsApp-Integrated Retrieval-Augmented Generation Assistant</p>
+      <div class="case-meta">
+        <div><strong>Role</strong><span>Independent implementation</span></div>
+        <div><strong>Stack</strong><span>Python · FastAPI · RAG · n8n</span></div>
+        <div><strong>Source</strong><span>Page-level institutional PDF</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="container case-layout">
+    <nav class="toc" aria-label="Case study sections">
+      <a href="#overview">Overview</a><a href="#architecture">Architecture</a><a href="#ingestion">Ingestion</a><a href="#retrieval">Retrieval</a><a href="#automation">Automation</a><a href="#reliability">Reliability</a><a href="#testing">Testing</a><a href="#limitations">Limitations</a>
+    </nav>
+    <article class="case-content">
+      <section id="overview">
+        <h2>Project overview</h2>
+        <p>University students preparing or undergoing Tugas Akhir need to navigate lengthy institutional guidelines covering procedures, schedules, document formats, seminar and sidang requirements, and writing rules. The relevant requirements may be distributed across a large PDF.</p>
+        <p>TA-Guide AI is a document-grounded assistant that retrieves passages from the project’s thesis guidance PDF, asks Gemini to generate an Indonesian answer from that context, and returns page-level references. It provides a Streamlit interface and an n8n WhatsApp workflow.</p>
+        <h3>Solution</h3>
+        <p>The system uses local embeddings and persistent ChromaDB storage for retrieval, hybrid semantic and BM25 ranking, FastAPI for answer requests, and n8n for WhatsApp orchestration. Gemini is responsible for answer generation; it is not used as a source of institutional facts outside the retrieved context.</p>
+        <h3>Target users</h3>
+        <p>Students preparing or undertaking Tugas Akhir are the primary users. Academic administration and supervisors may also use it as a supplementary question-answering tool.</p>
+      </section>
+      <section id="architecture">
+        <h2>System architecture</h2>
+        <div class="architecture" role="img" aria-label="TA-Guide AI system architecture">
+          <div class="architecture-flow">
+            <div class="architecture-node">Thesis guide PDF</div><div class="architecture-node">Ingestion + chunking</div><div class="architecture-node">Local embeddings</div><div class="architecture-node">ChromaDB</div>
+            <div class="architecture-node">Streamlit / WhatsApp</div><div class="architecture-node">FastAPI</div><div class="architecture-node">Hybrid retrieval</div><div class="architecture-node">Gemini</div>
+          </div>
+          <p class="architecture-label">n8n and Caddy orchestrate and restrict WhatsApp delivery; the index and application run locally or in self-hosted infrastructure.</p>
+        </div>
+        <p>Document ingestion is a separate offline path. Incoming questions arrive through Streamlit or n8n, pass to FastAPI, and are ranked against the local index. The selected chunks become prompt context for Gemini. Responses then return through the originating interface.</p>
+      </section>
+      <section id="ingestion">
+        <h2>Document ingestion pipeline</h2>
+        <p>The ingestion entry point finds the single project-root PDF and converts each page to Markdown. It recognizes heading hierarchy, removes table-of-contents pages and short page footers, and creates heading-aware chunks of about 1600 characters with 180-character overlap.</p>
+        <p>Each chunk retains the source filename, page number, section title, and section hierarchy. Deterministic document IDs allow the persistent collection to be rebuilt while avoiding ambiguous duplicate content.</p>
+        <img src="/assets/projects/ta-guide-ai/n8n-workflow.png" alt="n8n workflow orchestrating TA-Guide AI WhatsApp messages" width="1600" height="900" loading="lazy" />
+        <p class="case-image-caption">n8n workflow for message intake, RAG processing, response formatting, and delivery.</p>
+      </section>
+      <section id="retrieval">
+        <h2>Retrieval and ranking</h2>
+        <p>For a question, the system retrieves semantic candidates with a local multilingual embedding model and ranks the full corpus with a custom BM25 implementation. Reciprocal-rank fusion combines both rankings with equal semantic and lexical weight, then applies a section-title boost when the named section contains the relevant query terms.</p>
+        <p>The FastAPI response includes the answer, unique source pages, and retrieval chunk details. A minimum relevance gate does not prove that information is absent; a later lexical match can still be returned by the hybrid process.</p>
+        <ul><li>Local FastEmbed multilingual embeddings</li><li>Persistent ChromaDB vector collection</li><li>Semantic similarity search</li><li>BM25 lexical retrieval</li><li>Reciprocal Rank Fusion and section-title boosting</li><li>Page-aware Gemini prompt context</li></ul>
+      </section>
+      <section id="automation">
+        <h2>WhatsApp workflow automation</h2>
+        <p>An n8n workflow validates incoming WhatsApp text, extracts sender and message identifiers, checks duplicate message IDs, calls FastAPI, validates the RAG response, formats references, and sends the reply through WhatsApp Cloud API.</p>
+        <img src="/assets/projects/ta-guide-ai/whatsapp-demo.jpeg" alt="TA-Guide AI WhatsApp question and grounded answer demonstration" width="900" height="1600" loading="lazy" />
+        <p class="case-image-caption">Development demonstration of the WhatsApp-assisted question answering flow.</p>
+        <p>Docker Compose runs n8n and Caddy. Caddy and Cloudflare Quick Tunnel are development exposure tools for the webhook; Meta and WhatsApp credentials are externally managed and not included in the repository.</p>
+      </section>
+      <section id="reliability">
+        <h2>Reliability and exception handling</h2>
+        <ul>
+          <li>FastAPI and n8n validate and trim incoming questions.</li>
+          <li>The workflow deduplicates repeated message events.</li>
+          <li>Oversized input is prepared for a warning rather than silently forwarded.</li>
+          <li>API calls apply retry and timeout handling.</li>
+          <li>Responses are checked before formatting and delivery.</li>
+          <li>Unavailable retrieval or generation paths return a fallback message.</li>
+          <li>WhatsApp delivery failures are logged by the workflow.</li>
+        </ul>
+      </section>
+      <section id="testing">
+        <h2>Testing and engineering decisions</h2>
+        <p>The repository includes unit coverage for PDF extraction, retrieval and answer formatting, and FastAPI endpoints. One hybrid-search test was documented as failing during local verification. The historical local suite result was 13 passing tests out of 14, but this is not presented as a permanent quality or production-readiness guarantee.</p>
+        <p>The implementation separates ingestion, retrieval, answer generation, API transport, and workflow orchestration. This keeps the knowledge index and RAG logic independently maintainable, while FastAPI provides a stable interface for both Streamlit and n8n.</p>
+        <h3>Trade-offs</h3>
+        <p>Local embeddings and ChromaDB avoid sending document contents to a vector service, while external Gemini is used only for answer generation. The fixed PDF scope makes the prototype easier to operate but does not provide multi-knowledge-base or tenant support. n8n and cloud tunnels are practical for self-hosted development but require explicit credential and access configuration.</p>
+      </section>
+      <section id="limitations">
+        <h2>Limitations and future improvements</h2>
+        <p>This is a functional prototype, not a verified production deployment. End-to-end WhatsApp delivery has not been fully evidenced by automated tests, and no measured RAG accuracy is claimed. A single PDF is the active knowledge source, image-only pages still depend on OCR quality, and there is no authentication or multi-user knowledge-base model.</p>
+        <p>Future work would benefit from a maintained evaluation set, automated end-to-end workflow tests, broader source ingestion, clearer index rebuild reporting, and a documented deployment environment.</p>
+      </section>
+      <div class="hero-actions"><a class="button" href="https://github.com/AutoReXz/TA-Guide-AI" target="_blank" rel="noopener noreferrer"><ExternalLink size={16} /> View GitHub repository</a></div>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ExternalLink } from '@lucide/astro';
+---
+<BaseLayout title="HOPTIMA — Case Study" description="A Bangkit Academy machine learning capstone for property recommendations in Yogyakarta.">
+  <section class="case-hero">
+    <div class="container">
+      <div class="eyebrow">Bangkit Academy Capstone · 2024 · 7 team members</div>
+      <h1>HOPTIMA</h1>
+      <p class="case-subtitle">Machine Learning-Based Property Recommendation System</p>
+      <div class="case-meta">
+        <div><strong>Candidate role</strong><span>Machine Learning Team Member</span></div>
+        <div><strong>Team scope</strong><span>ML · Cloud · Mobile</span></div>
+        <div><strong>Application area</strong><span>Yogyakarta property search</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="container case-layout">
+    <nav class="toc" aria-label="Case study sections">
+      <a href="#overview">Overview</a><a href="#problem">Problem</a><a href="#responsibilities">Responsibilities</a><a href="#implementation">ML implementation</a><a href="#screens">Application</a><a href="#challenges">Challenges</a><a href="#lessons">Lessons</a>
+    </nav>
+    <article class="case-content">
+      <section id="overview"><h2>Project overview</h2><p>HOPTIMA is a property recommendation application developed for the Yogyakarta area as part of a seven-member Bangkit Academy capstone team. It helps users identify potentially suitable properties based on their preferences and property attributes.</p><p>The project brought together Machine Learning, Cloud Computing, and Mobile Development work. This case study describes the candidate’s supported individual contributions and clearly distinguishes them from the wider team application.</p></section>
+      <section id="problem"><h2>Problem statement</h2><p>Property search can involve many listings with varied locations, prices, and features. HOPTIMA was designed to provide a preference-oriented view of properties instead of leaving users to browse individual options without structured recommendation support.</p></section>
+      <section id="responsibilities"><h2>Candidate responsibilities</h2><p>As a Machine Learning Team Member, the candidate contributed to:</p><ul><li>Property data cleaning</li><li>Feature preparation</li><li>Exploratory data analysis</li><li>Recommendation-model development</li><li>Model evaluation</li><li>Coordination with Cloud Computing and Mobile Development teams</li><li>Supporting application integration</li></ul></section>
+      <section id="implementation"><h2>Machine learning implementation</h2><p>The implementation used Python and TensorFlow together with data preprocessing and recommendation techniques. Property attributes and user preferences were prepared and used to generate relevant property recommendations for the application.</p><p>Specific model architectures, dataset sizes, and quantitative performance metrics are not documented in the supplied portfolio sources and are therefore not presented here.</p></section>
+      <section id="screens"><h2>Application screens</h2><img src="/assets/projects/hoptima/semuanya-HOPTIMA.png" alt="A collection of HOPTIMA application screens showing discovery, chat, history, property details, and settings" width="1400" height="1000" loading="lazy" /><p class="case-image-caption">Supplied HOPTIMA mobile application screenshots.</p></section>
+      <section id="challenges"><h2>Challenges and collaboration</h2><p>The team had to connect independent data, machine learning, cloud, and mobile work into a coherent application experience. Within that collaboration, the machine learning work had to prepare usable inputs and model outputs that could be consumed by the supporting application teams.</p></section>
+      <section id="lessons"><h2>Lessons learned</h2><p>The project reinforced the importance of clear data preparation, shared feature definitions, and practical coordination across disciplines. It also demonstrated that individual model development is only one part of delivering a recommendation application end to end.</p></section>
+      <div class="hero-actions"><a class="button button-primary" href="https://youtu.be/ZExdRTqDkRc" target="_blank" rel="noopener noreferrer"><ExternalLink size={16} /> Watch demonstration</a></div>
+    </article>
+  </div>
+</BaseLayout>

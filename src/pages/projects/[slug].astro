@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPortfolioContent } from '../../data/content';
+
+export async function getStaticPaths() {
+  const existingCaseStudies = new Set(['hoptima', 'ta-guide-ai']);
+  const { projects } = await getPortfolioContent();
+  return projects
+    .filter((project) => !existingCaseStudies.has(project.slug))
+    .map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+---
+<BaseLayout title={`${project.title} — Project`} description={project.summary}>
+  <section class="case-hero">
+    <div class="container">
+      <div class="eyebrow">{project.type} · {project.status}</div>
+      <h1>{project.title}</h1>
+      <p class="case-subtitle">{project.subtitle}</p>
+    </div>
+  </section>
+  <div class="container case-layout">
+    <article class="case-content">
+      <section>
+        <h2>Project overview</h2>
+        <p>{project.description || project.summary}</p>
+        {project.tags.length > 0 && <div class="tag-row">{project.tags.map((tag) => <span class="tag">{tag}</span>)}</div>}
+      </section>
+      {project.images.map((image) => (
+        <section>
+          <img src={image.src} alt={image.alt} loading="lazy" />
+        </section>
+      ))}
+    </article>
+  </div>
+</BaseLayout>

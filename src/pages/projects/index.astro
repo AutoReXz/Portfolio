@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPortfolioContent } from '../../data/content';
+
+const { projects } = await getPortfolioContent();
+---
+<BaseLayout title="Projects — Galang Rakha Ahnanta" description="A selection of AI, machine learning, data, and software projects by Galang Rakha Ahnanta.">
+  <section class="page-hero">
+    <div class="container"><div class="eyebrow">Project archive</div><h1>Selected work</h1><p>Independent and academic projects focused on turning data and technical systems into practical applications.</p></div>
+  </section>
+  <section class="archive-grid"><div class="container project-grid">
+    {projects.map((project) => (
+      <a class="project-card" href={`/projects/${project.slug}`}>
+        {project.image && <div class="project-image"><img src={project.image} alt={project.alt} width="1200" height="750" loading="lazy" /></div>}
+        <div class="project-card-body"><div class="eyebrow">{project.type}</div><h3>{project.title}</h3><p>{project.summary}</p><div class="tag-row">{project.tags.map((tag) => <span class="tag">{tag}</span>)}</div></div>
+      </a>
+    ))}
+  </div></section>
+</BaseLayout>

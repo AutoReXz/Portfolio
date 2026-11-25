@@ -1,0 +1,15 @@
+---
+import { getPortfolioContent } from '../data/content';
+
+const { site } = await getPortfolioContent();
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© {new Date().getFullYear()} {site.name}</p>
+    <div class="footer-links">
+      <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href={`mailto:${site.email}`}>Email</a>
+    </div>
+  </div>
+</footer>
