@@ -2,6 +2,8 @@
 
 A static, minimalist portfolio built with Astro and TypeScript. Published profile and portfolio content is read from Supabase during the Astro build; the public website is generated as static files and uses bundled content whenever Supabase is unavailable.
 
+[View the live portfolio](https://galangrakha.vercel.app/) · [Read the HOPTIMA case study](https://galangrakha.vercel.app/projects/hoptima)
+
 ## Local development
 
 ```powershell
