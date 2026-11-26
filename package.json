@@ -2,6 +2,9 @@
   "name": "galang-rakha-portfolio",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=22.23.4"
+  },
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -16,8 +19,7 @@
     "@lucide/astro": "^1.80.0",
     "@supabase/supabase-js": "^2.119.2",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.6",
-    "lucide-astro": "^0.468.0",
+    "astro": "^7.4.13",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "zod": "^4.6.7"

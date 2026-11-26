@@ -22,6 +22,8 @@ The SQL is version controlled but is **not** run automatically:
 
 The seed content is based on the existing portfolio and reference documents. Project images and certificate PDFs remain local static assets; their relative paths are stored in Supabase, so these files must be included in the deployment.
 
+The private `reference/` directory is excluded from Git. Only approved website assets under `public/` are tracked for deployment.
+
 ## Content updates
 
 Update rows using the Supabase Dashboard. Only rows with `is_published = true` are read by the public build. Set a row to unpublished to hide it. Add project technologies and images through their linked tables. Existing case-study pages for HOPTIMA and TA-Guide AI remain locally authored; other published projects get a generated overview page from their stored fields.
@@ -30,13 +32,21 @@ Content is fetched at build time, not per visitor. After editing published conte
 
 ## Vercel deployment
 
-1. Import this repository into Vercel. Use `npm run build` as the build command and `dist` as the output directory.
+1. Import this repository into Vercel and set the project options:
+   - Framework preset: **Astro**
+   - Root directory: repository root (`.`)
+   - Install command: `npm ci`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Node.js version: **24.x** (Astro requires Node.js 22.23.4 or newer)
 2. In **Project Settings → Environment Variables**, add:
    - `SUPABASE_URL`
    - `SUPABASE_PUBLISHABLE_KEY`
-3. Set them for the production and preview environments as needed, then deploy.
+3. Set both variables for the Production and Preview environments (and Development if using Vercel CLI), then trigger a deployment.
 
 The Supabase publishable key is intended for public clients. Row Level Security limits anonymous access to published rows, and anonymous write privileges are revoked. Never configure a service-role key in this website.
+
+The Supabase data is embedded in the generated static pages during the build. After changing published rows in Supabase, redeploy the latest commit in Vercel to rebuild the pages. No webhook or per-request database connection is used.
 
 ## Validation
 

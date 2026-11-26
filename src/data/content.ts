@@ -174,7 +174,10 @@ async function loadPortfolioContent() {
 
   try {
     const supabase = getSupabaseClient();
-    if (!supabase) return fallback;
+    if (!supabase) {
+      console.info('[portfolio] Content source: bundled local fallback (Supabase variables are not configured).');
+      return fallback;
+    }
 
     const [
       profilesResult,
@@ -222,6 +225,10 @@ async function loadPortfolioContent() {
     if (profiles.length !== 1) {
       throw new Error('Expected exactly one published profile.');
     }
+
+    console.info(
+      `[portfolio] Content source: Supabase (${projectRows.length} projects, ${skillRows.length} skills, ${experienceRows.length + educationRows.length} experience and education entries, ${certificationRows.length} certifications).`,
+    );
 
     const activeProjectSlugs = new Set(projectRows.map(({ slug }) => slug));
     const publishedImages = imageRows.filter(({ project_slug }) => activeProjectSlugs.has(project_slug));
@@ -304,8 +311,8 @@ async function loadPortfolioContent() {
     };
   } catch (error) {
     console.warn(
-      '[portfolio] Supabase content could not be loaded or validated; using bundled content.',
-      error instanceof Error ? error.message : 'Unknown error',
+      '[portfolio] Content source: bundled local fallback (Supabase content was unavailable or invalid).',
+      error instanceof Error ? error.name : 'Unknown error',
     );
     return fallback;
   }
